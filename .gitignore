@@ -1,0 +1,8 @@
+target/
+*.class
+*.jar
+*.jar.original
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log

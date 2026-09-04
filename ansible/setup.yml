@@ -1,0 +1,42 @@
+---
+- name: Configure E-Commerce DevOps Environment
+  hosts: local
+  become: yes
+
+  tasks:
+
+    - name: Install required packages
+      dnf:
+        name:
+          - git
+          - java-17-amazon-corretto
+          - docker
+        state: present
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Display Java version
+      command: java -version
+      register: java_version
+      changed_when: false
+
+    - name: Display Git version
+      command: git --version
+      register: git_version
+      changed_when: false
+
+    - name: Display Docker version
+      command: docker --version
+      register: docker_version
+      changed_when: false
+
+    - name: Show installed versions
+      debug:
+        msg:
+          - "{{ java_version.stderr }}"
+          - "{{ git_version.stdout }}"
+          - "{{ docker_version.stdout }}"
